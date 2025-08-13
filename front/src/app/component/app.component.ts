@@ -6,12 +6,12 @@ import {Subscription} from "rxjs";
   selector: 'app-root',
   template: `
     <p-toast></p-toast>
-    <h1>Support Your Car Your Way</h1>
+    <h1>Support Client : Your Car Your Way</h1>
     <div style="padding: 1em">
       <div class="grid">
         <span class="p-float-label">
             <input type="text" id="username" pInputText [(ngModel)]="username"/>
-            <label for="username">Identifiant</label>
+            <label for="username">Nom d'utilisateur</label>
         </span>
         <p-button icon="pi pi-sign-in" class="m-1"
                   [disabled]="connected || !this.username"
@@ -37,6 +37,7 @@ import {Subscription} from "rxjs";
     </div>
 
     <div class="grid">
+      <!-- Montre les messages envoyé -->
       <div class="col">
         <table class="table table-striped">
           <thead>
@@ -48,12 +49,13 @@ import {Subscription} from "rxjs";
           <tr>
             <td>
               <p>{{message.text}}</p>
-              <small>{{message.time | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
+              <small>{{message.time | date: 'dd/MM/yyyy HH:mm:ss'}}</small>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
+      <!-- Montre les messages recu -->
       <div class="col">
         <table class="table table-striped">
           <thead>
@@ -64,8 +66,28 @@ import {Subscription} from "rxjs";
           <tbody *ngFor="let message of received">
           <tr>
             <td>
+              <i>{{message.name}}</i><br>
               <p>{{message.text}}</p>
-              <small>{{message.time | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
+              <small>{{message.time | date: 'dd/MM/yyyy HH:mm:ss'}}</small>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Montre la conversation -->
+       <div class="col">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th><h1>Conversation :</h1></th>
+          </tr>
+          </thead>
+          <tbody *ngFor="let message of conversation">
+          <tr>
+            <td>
+              <i style="font-size: 2em;">{{message.name}}</i><br>
+              <p style="font-size: 1.5em;">{{message.text}}</p>
+              <small style="font-size: 0.75em;">{{message.time | date: 'dd/MM/yyyy HH:mm:ss'}}</small>
             </td>
           </tr>
           </tbody>
@@ -84,6 +106,7 @@ export class AppComponent {
 
   received: Message[] = [];
   sent: Message[] = [];
+  conversation: Message[] = [];
 
   constructor(private chatService: ChatService) {
   }
@@ -93,12 +116,14 @@ export class AppComponent {
     this.chatService.connect();
     this.subscription = this.chatService.messages.subscribe((msg) => {
       this.received.push(msg);
+      this.updateConversation();
     });
   }
 
   disconnect() {
     this.received = [];
     this.sent = [];
+    this.conversation = [];
     this.text = '';
     this.chatService.disconnect();
     this.subscription.unsubscribe();
@@ -114,5 +139,12 @@ export class AppComponent {
     this.sent.push(message);
     this.text = '';
     this.chatService.messages.next(message);
+    this.text = '';
+    this.updateConversation();
+  }
+
+  updateConversation() {
+    this.conversation = [...this.sent, ...this.received]
+      .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
   }
 }
