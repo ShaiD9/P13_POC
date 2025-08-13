@@ -1,6 +1,6 @@
 # POC Chat Your Car Your Way
 
-Une application de chat simple utilisant Angular pour le front-end, Spring Boot pour le back-end, et WebSocket pour la communication en temps réel.
+POC d'un chat simple utilisant Angular et Spring Boot, pour prouver la faisabilité technique d'un chat entre utilisateur et support.
 
 ## Prérequis
 
@@ -11,17 +11,19 @@ Une application de chat simple utilisant Angular pour le front-end, Spring Boot 
 
 ## Installation
 
+### Cloner le repo
+
+    git clone https://github.com/ShaiD9/P13_POC
+
 ### Front-end (Angular)
 
-1. Cloner le dépôt:
+1. Aller dans le frontend:
     ```bash
-    git clone https://github.com/dversabeau/poc-oc-13
-    cd poc-oc-13
+    cd P13_POC/front
     ```
 
 2. Installer les dépendances:
     ```bash
-    cd frontend
     npm install
     ```
 
@@ -29,8 +31,7 @@ Une application de chat simple utilisant Angular pour le front-end, Spring Boot 
 
 1. Cloner le dépôt si ce n'est pas déjà fait:
     ```bash
-    git clone https://github.com/dversabeau/poc-oc-13
-    cd backend
+    cd P13_POC/backend
     ```
 
 2. Construire le projet:
@@ -42,7 +43,7 @@ Une application de chat simple utilisant Angular pour le front-end, Spring Boot 
 
 ### Front-end (Angular)
 
-Pour démarrer le serveur Angular en mode développement:
+Pour démarrer le front :
 ```bash
 ng serve
 ```
@@ -51,10 +52,8 @@ L'application sera accessible à l'adresse `http://localhost:4200/`.
 
 ### Back-end (Java Spring)
 
-Pour démarrer le serveur Spring Boot:
+Pour démarrer le back :
 ```bash
 mvn spring-boot:run
 ```
-
-Le serveur sera accessible à l'adresse `http://localhost:8080/`.
 
